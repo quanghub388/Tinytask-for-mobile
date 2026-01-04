@@ -26,9 +26,9 @@ local themes = {
     {Name = "FOREST", Main = Color3.fromRGB(15, 40, 15), Accent = Color3.fromRGB(50, 180, 50), Text = Color3.fromRGB(210, 255, 210)}
 }
 
--- 2. GIAO DIỆN & VIỀN PHÁT SÁNG CẦU VỒNG
+-- 2. GIAO DIỆN CHÍNH
 local ScreenGui = Instance.new("ScreenGui", Player.PlayerGui)
-ScreenGui.Name = "TinyDelta_V9"
+ScreenGui.Name = "TINYCLICK_ByCat"
 
 local GlowFrame = Instance.new("Frame", ScreenGui)
 GlowFrame.Size = UDim2.new(0, 204, 0, 284)
@@ -59,30 +59,37 @@ Header.Size = UDim2.new(1, 0, 0, 35)
 Header.BackgroundColor3 = themes[1].Accent
 Instance.new("UICorner", Header)
 
--- LOGIC DI CHUYỂN
-local dragging, dragStart, startPos
-Header.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-        dragging = true dragStart = input.Position startPos = GlowFrame.Position
-    end
-end)
-UserInputService.InputChanged:Connect(function(input)
-    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-        local delta = input.Position - dragStart
-        GlowFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-end)
-Header.InputEnded:Connect(function(input) dragging = false end)
+-- 3. LOGIC DI CHUYỂN (Drag)
+local function MakeDraggable(obj, dragHandle)
+    local dragging, dragStart, startPos
+    dragHandle.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true dragStart = input.Position startPos = obj.Position
+        end
+    end)
+    UserInputService.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - dragStart
+            obj.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+    dragHandle.InputEnded:Connect(function(input) dragging = false end)
+end
 
--- 3. WINDOWS BUTTONS & CAT MODE
+MakeDraggable(GlowFrame, Header)
+
+-- 4. TIÊU ĐỀ MỚI: TINYCLICK by CAT
 local Title = Instance.new("TextLabel", Header)
-Title.Size = UDim2.new(0.5, 0, 1, 0)
+Title.Size = UDim2.new(0.65, 0, 1, 0)
 Title.Position = UDim2.new(0.05, 0, 0, 0)
-Title.Text = "TINYDELTA V9 :3"
+Title.Text = "TINYCLICK by CAT :3"
 Title.TextColor3 = themes[1].Text
 Title.Font = Enum.Font.GothamBold
+Title.TextSize = 13
+Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.BackgroundTransparency = 1
 
+-- 5. NÚT WINDOWS & ICON MÈO DI CHUYỂN
 local CloseBtn = Instance.new("TextButton", Header)
 CloseBtn.Size = UDim2.new(0, 25, 0, 25)
 CloseBtn.Position = UDim2.new(0.85, 0, 0.15, 0)
@@ -108,11 +115,17 @@ CatMin.TextColor3 = Color3.new(1, 1, 1)
 CatMin.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 Instance.new("UICorner", CatMin).CornerRadius = UDim.new(1, 0)
 
+MakeDraggable(CatMin, CatMin)
+
 MinBtn.MouseButton1Click:Connect(function() PlayClickSound() GlowFrame.Visible = false CatMin.Visible = true CatMin.Position = GlowFrame.Position end)
-CatMin.MouseButton1Click:Connect(function() PlayClickSound() CatMin.Visible = false GlowFrame.Visible = true end)
+CatMin.MouseButton1Click:Connect(function() 
+    PlayClickSound() 
+    if CatMin.Position ~= GlowFrame.Position then GlowFrame.Position = CatMin.Position end
+    CatMin.Visible = false GlowFrame.Visible = true 
+end)
 CloseBtn.MouseButton1Click:Connect(function() PlayClickSound() ScreenGui:Destroy() end)
 
--- 4. TẠO CÁC NÚT CHỨC NĂNG (BẢN SỬA LỖI TRỐNG TRƠN)
+-- 6. TẠO CÁC NÚT CHỨC NĂNG
 local function createBtn(text, pos, color)
     local btn = Instance.new("TextButton", Main)
     btn.Size = UDim2.new(0, 86, 0, 35)
@@ -126,18 +139,6 @@ local function createBtn(text, pos, color)
     return btn
 end
 
-local ThemeBtn = createBtn("THEME", UDim2.new(0.05, 0, 0.18, 0), Color3.fromRGB(60, 60, 60))
-ThemeBtn.Size = UDim2.new(0.9, 0, 0, 30)
-
-local RecBtn = createBtn("REC", UDim2.new(0.05, 0, 0.35, 0), Color3.fromRGB(180, 50, 50))
-local PlayBtn = createBtn("PLAY", UDim2.new(0.52, 0, 0.35, 0), Color3.fromRGB(50, 150, 50))
-local ClearBtn = createBtn("CLEAR", UDim2.new(0.05, 0, 0.55, 0), Color3.fromRGB(80, 80, 80))
-local LoopBtn = createBtn("LOOP: ON", UDim2.new(0.52, 0, 0.55, 0), Color3.fromRGB(0, 110, 190))
-
-local SupportBtn = createBtn("SUPPORT", UDim2.new(0.05, 0, 0.8, 0), Color3.fromRGB(88, 101, 242))
-SupportBtn.Size = UDim2.new(0.9, 0, 0, 35)
-
--- 5. LOGIC MACRO & ĐIỂM CLICK
 local function CreatePoint(pos, index)
     local dot = Instance.new("TextButton", ScreenGui)
     dot.Size = UDim2.new(0, 22, 0, 22)
@@ -152,7 +153,6 @@ local function CreatePoint(pos, index)
     dlText.Text = points[index].delay .. "s"
     dlText.TextColor3 = Color3.new(1, 1, 0)
     dlText.BackgroundTransparency = 1
-    
     dot.MouseButton1Click:Connect(function()
         local box = Instance.new("TextBox", ScreenGui)
         box.Size = UDim2.new(0, 60, 0, 30)
@@ -167,12 +167,20 @@ local function CreatePoint(pos, index)
     return dot
 end
 
+local ThemeBtn = createBtn("THEME", UDim2.new(0.05, 0, 0.18, 0), Color3.fromRGB(60, 60, 60))
+ThemeBtn.Size = UDim2.new(0.9, 0, 0, 30)
 ThemeBtn.MouseButton1Click:Connect(function()
     themeIndex = (themeIndex % #themes) + 1
     local t = themes[themeIndex]
     Main.BackgroundColor3 = t.Main Header.BackgroundColor3 = t.Accent Title.TextColor3 = t.Text ThemeBtn.Text = "THEME: "..t.Name
 end)
 
+local RecBtn = createBtn("REC", UDim2.new(0.05, 0, 0.35, 0), Color3.fromRGB(180, 50, 50))
+local PlayBtn = createBtn("PLAY", UDim2.new(0.52, 0, 0.35, 0), Color3.fromRGB(50, 150, 50))
+local ClearBtn = createBtn("CLEAR", UDim2.new(0.05, 0, 0.55, 0), Color3.fromRGB(80, 80, 80))
+local LoopBtn = createBtn("LOOP: ON", UDim2.new(0.52, 0, 0.55, 0), Color3.fromRGB(0, 110, 190))
+
+-- 7. LOGIC MACRO FULL
 Mouse.Button1Down:Connect(function()
     if isRecording then
         local idx = #points + 1
@@ -213,7 +221,9 @@ end)
 ClearBtn.MouseButton1Click:Connect(function() for _, v in pairs(points) do if v.ui then v.ui:Destroy() end end points = {} isPlaying = false PlayBtn.Text = "PLAY" end)
 LoopBtn.MouseButton1Click:Connect(function() loop = not loop LoopBtn.Text = loop and "LOOP: ON" or "LOOP: OFF" end)
 
+local SupportBtn = createBtn("SUPPORT", UDim2.new(0.05, 0, 0.8, 0), Color3.fromRGB(88, 101, 242))
+SupportBtn.Size = UDim2.new(0.9, 0, 0, 35)
 SupportBtn.MouseButton1Click:Connect(function()
     setclipboard("https://discord.com/users/1199321278637678655")
-    game:GetService("StarterGui"):SetCore("SendNotification", {Title = "TINYDELTA", Text = "COPIED :3", Duration = 3})
+    game:GetService("StarterGui"):SetCore("SendNotification", {Title = "TINYCLICK", Text = "COPIED :3", Duration = 3})
 end)
