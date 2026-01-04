@@ -2,135 +2,113 @@ local VirtualInputManager = game:GetService("VirtualInputManager")
 local Player = game.Players.LocalPlayer
 local Mouse = Player:GetMouse()
 
-local points = {}
+local points = {} -- Lưu {pos, delay, ui}
 local isRecording = false
 local isPlaying = false
 local loop = true
-local visualDots = {} 
-local clickDelay = 0.5 -- Thời gian mặc định
 
--- GIAO DIỆN HIỆN ĐẠI
+-- GIAO DIỆN CHÍNH
 local ScreenGui = Instance.new("ScreenGui", Player.PlayerGui)
-ScreenGui.Name = "TinyDelta_Pro_V2"
+ScreenGui.Name = "TinyDelta_Macro_V3"
 
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 200, 0, 210) -- Tăng chiều cao để thêm ô nhập liệu
-Main.Position = UDim2.new(0.5, -100, 0.2, 0)
-Main.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-Main.BorderSizePixel = 0
+Main.Size = UDim2.new(0, 180, 0, 130)
+Main.Position = UDim2.new(0.5, -90, 0.1, 0)
+Main.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 Main.Active = true
 Main.Draggable = true
-local MainCorner = Instance.new("UICorner", Main)
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 10)
 
-local Header = Instance.new("Frame", Main)
-Header.Size = UDim2.new(1, 0, 0, 30)
-Header.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-Header.BorderSizePixel = 0
-local HeaderCorner = Instance.new("UICorner", Header)
-
-local Title = Instance.new("TextLabel", Header)
-Title.Size = UDim2.new(1, 0, 1, 0)
-Title.Text = "TINYDELTA PRO V2"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+local Title = Instance.new("TextLabel", Main)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Text = "MACRO PRO V3"
+Title.TextColor3 = Color3.new(1, 1, 1)
 Title.Font = Enum.Font.GothamBold
-Title.TextSize = 12
 Title.BackgroundTransparency = 1
 
--- PHẦN CHỈNH DELAY
-local DelayLabel = Instance.new("TextLabel", Main)
-DelayLabel.Size = UDim2.new(0, 100, 0, 30)
-DelayLabel.Position = UDim2.new(0.04, 0, 0.18, 0)
-DelayLabel.Text = "Delay (giây):"
-DelayLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-DelayLabel.BackgroundTransparency = 1
-DelayLabel.TextXAlignment = Enum.TextXAlignment.Left
-DelayLabel.Font = Enum.Font.Gotham
-
-local DelayInput = Instance.new("TextBox", Main)
-DelayInput.Size = UDim2.new(0, 70, 0, 25)
-DelayInput.Position = UDim2.new(0.55, 0, 0.2, 0)
-DelayInput.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-DelayInput.Text = tostring(clickDelay)
-DelayInput.TextColor3 = Color3.new(1, 1, 1)
-DelayInput.Font = Enum.Font.Gotham
-local DICorner = Instance.new("UICorner", DelayInput)
-
--- Hàm tạo nút
 local function createBtn(text, pos, color)
     local btn = Instance.new("TextButton", Main)
-    btn.Size = UDim2.new(0.44, 0, 0, 35)
+    btn.Size = UDim2.new(0, 80, 0, 35)
     btn.Position = pos
     btn.Text = text
     btn.BackgroundColor3 = color
     btn.TextColor3 = Color3.new(1, 1, 1)
     btn.Font = Enum.Font.GothamMedium
-    btn.TextSize = 11
-    btn.BorderSizePixel = 0
-    local btnCorner = Instance.new("UICorner", btn)
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
     return btn
 end
 
-local RecBtn = createBtn("REC", UDim2.new(0.04, 0, 0.4, 0), Color3.fromRGB(200, 50, 50))
-local PlayBtn = createBtn("PLAY", UDim2.new(0.52, 0, 0.4, 0), Color3.fromRGB(50, 150, 50))
-local ResetBtn = createBtn("CLEAR", UDim2.new(0.04, 0, 0.65, 0), Color3.fromRGB(70, 70, 70))
-local LoopBtn = createBtn("LOOP: ON", UDim2.new(0.52, 0, 0.65, 0), Color3.fromRGB(0, 120, 200))
+local RecBtn = createBtn("REC", UDim2.new(0.05, 0, 0.3, 0), Color3.fromRGB(180, 40, 40))
+local PlayBtn = createBtn("PLAY", UDim2.new(0.5, 0, 0.3, 0), Color3.fromRGB(40, 150, 40))
+local ClearBtn = createBtn("CLEAR", UDim2.new(0.05, 0, 0.65, 0), Color3.fromRGB(60, 60, 60))
+local LoopBtn = createBtn("LOOP: ON", UDim2.new(0.5, 0, 0.65, 0), Color3.fromRGB(0, 100, 180))
 
--- Cập nhật Delay khi nhập
-DelayInput.FocusLost:Connect(function()
-    local val = tonumber(DelayInput.Text)
-    if val then
-        clickDelay = val
-        print("Đã chỉnh delay thành: " .. val)
-    else
-        DelayInput.Text = tostring(clickDelay)
-    end
-end)
+-- HÀM TẠO ĐIỂM ĐÁNH DẤU CÓ THỂ CHỈNH SỬA
+local function CreateEditablePoint(pos, index)
+    local dot = Instance.new("TextButton", ScreenGui)
+    dot.Size = UDim2.new(0, 20, 0, 20)
+    dot.Position = UDim2.new(0, pos.X - 10, 0, pos.Y - 10)
+    dot.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+    dot.Text = tostring(index)
+    dot.TextColor3 = Color3.new(1, 1, 1)
+    dot.Font = Enum.Font.GothamBold
+    dot.ZIndex = 10
+    Instance.new("UICorner", dot).CornerRadius = UDim.new(1, 0)
 
--- LOGIC HIỆU ỨNG & CLICK
-local function ClickEffect(pos)
-    local ring = Instance.new("Frame", ScreenGui)
-    ring.Size = UDim2.new(0, 10, 0, 10)
-    ring.Position = UDim2.new(0, pos.X - 5, 0, pos.Y - 5)
-    ring.BackgroundColor3 = Color3.new(1, 1, 1)
-    ring.BackgroundTransparency = 0.5
-    local c = Instance.new("UICorner", ring)
-    c.CornerRadius = UDim.new(1, 0)
-    task.spawn(function()
-        for i = 1, 10 do
-            ring.Size = ring.Size + UDim2.new(0, 4, 0, 4)
-            ring.Position = ring.Position - UDim2.new(0, 2, 0, 2)
-            ring.BackgroundTransparency = ring.BackgroundTransparency + 0.05
-            task.wait(0.02)
-        end
-        ring:Destroy()
+    local delayText = Instance.new("TextLabel", dot)
+    delayText.Size = UDim2.new(0, 40, 0, 20)
+    delayText.Position = UDim2.new(1, 2, 0, 0)
+    delayText.Text = points[index].delay .. "s"
+    delayText.TextColor3 = Color3.new(1, 1, 0)
+    delayText.BackgroundTransparency = 1
+    delayText.Font = Enum.Font.Gotham
+    delayText.TextSize = 10
+
+    -- Khi bấm vào chấm đỏ để chỉnh giây
+    dot.MouseButton1Click:Connect(function()
+        local inputFrame = Instance.new("Frame", ScreenGui)
+        inputFrame.Size = UDim2.new(0, 100, 0, 50)
+        inputFrame.Position = UDim2.new(0, pos.X - 50, 0, pos.Y - 60)
+        inputFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        Instance.new("UICorner", inputFrame)
+
+        local box = Instance.new("TextBox", inputFrame)
+        box.Size = UDim2.new(0.8, 0, 0.6, 0)
+        box.Position = UDim2.new(0.1, 0, 0.2, 0)
+        box.Text = tostring(points[index].delay)
+        box.TextColor3 = Color3.new(1, 1, 1)
+        box.ClearTextOnFocus = true
+
+        box.FocusLost:Connect(function()
+            local val = tonumber(box.Text)
+            if val then
+                points[index].delay = val
+                delayText.Text = val .. "s"
+            end
+            inputFrame:Destroy()
+        end)
     end)
+
+    return dot
 end
 
+-- GHI ĐIỂM
 Mouse.Button1Down:Connect(function()
     if isRecording then
         local p = Vector2.new(Mouse.X, Mouse.Y)
-        table.insert(points, p)
-        local dot = Instance.new("Frame", ScreenGui)
-        dot.Size = UDim2.new(0, 8, 0, 8)
-        dot.Position = UDim2.new(0, p.X - 4, 0, p.Y - 4)
-        dot.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
-        local c = Instance.new("UICorner", dot)
-        c.CornerRadius = UDim.new(1, 0)
-        table.insert(visualDots, dot)
+        local index = #points + 1
+        points[index] = {pos = p, delay = 0.5, ui = nil}
+        points[index].ui = CreateEditablePoint(p, index)
     end
 end)
 
+-- ĐIỀU KHIỂN
 RecBtn.MouseButton1Click:Connect(function()
     isRecording = not isRecording
+    RecBtn.Text = isRecording and "STOP" or "REC"
     if isRecording then
-        for _, v in pairs(visualDots) do v:Destroy() end
-        visualDots = {}
+        for _, v in ipairs(points) do v.ui:Destroy() end
         points = {}
-        RecBtn.Text = "STOP REC"
-        RecBtn.BackgroundColor3 = Color3.fromRGB(100, 0, 0)
-    else
-        RecBtn.Text = "REC"
-        RecBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
     end
 end)
 
@@ -138,37 +116,35 @@ PlayBtn.MouseButton1Click:Connect(function()
     if #points == 0 then return end
     isPlaying = not isPlaying
     PlayBtn.Text = isPlaying and "STOP" or "PLAY"
-    PlayBtn.BackgroundColor3 = isPlaying and Color3.fromRGB(200, 150, 0) or Color3.fromRGB(50, 150, 50)
     
     task.spawn(function()
         while isPlaying do
-            for _, pos in ipairs(points) do
+            for i, data in ipairs(points) do
                 if not isPlaying then break end
-                ClickEffect(pos)
-                VirtualInputManager:SendMouseButtonEvent(pos.X, pos.Y, 0, true, game, 1)
+                -- Hiệu ứng nháy khi click
+                data.ui.BackgroundColor3 = Color3.new(1, 1, 1)
+                VirtualInputManager:SendMouseButtonEvent(data.pos.X, data.pos.Y, 0, true, game, 1)
                 task.wait(0.02)
-                VirtualInputManager:SendMouseButtonEvent(pos.X, pos.Y, 0, false, game, 1)
-                task.wait(clickDelay) -- SỬ DỤNG DELAY TỪ Ô NHẬP LIỆU
+                VirtualInputManager:SendMouseButtonEvent(data.pos.X, data.pos.Y, 0, false, game, 1)
+                task.wait(0.1)
+                data.ui.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+                
+                task.wait(data.delay) -- DÙNG DELAY RIÊNG CỦA TỪNG ĐIỂM
             end
             if not loop then isPlaying = false break end
             task.wait(0.1)
         end
         PlayBtn.Text = "PLAY"
-        PlayBtn.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
     end)
+end)
+
+ClearBtn.MouseButton1Click:Connect(function()
+    for _, v in ipairs(points) do v.ui:Destroy() end
+    points = {}
+    isPlaying = false
 end)
 
 LoopBtn.MouseButton1Click:Connect(function()
     loop = not loop
     LoopBtn.Text = loop and "LOOP: ON" or "LOOP: OFF"
-    LoopBtn.BackgroundColor3 = loop and Color3.fromRGB(0, 120, 200) or Color3.fromRGB(70, 70, 70)
-end)
-
-ResetBtn.MouseButton1Click:Connect(function()
-    for _, v in pairs(visualDots) do v:Destroy() end
-    visualDots = {}
-    points = {}
-    isPlaying = false
-    isRecording = false
-    PlayBtn.Text = "PLAY"
 end)
