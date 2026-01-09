@@ -3,6 +3,10 @@ local Player = game.Players.LocalPlayer
 local Mouse = Player:GetMouse()
 local SoundService = game:GetService("SoundService")
 local UserInputService = game:GetService("UserInputService")
+local GuiService = game:GetService("GuiService") -- Thêm cái này
+
+-- BIẾN FIX LỆCH (Inset thường là 36 hoặc 58 pixel trên Mobile)
+local inset = GuiService:GetGuiInset().Y 
 
 local points = {}
 local isRecording = false
@@ -10,7 +14,7 @@ local isPlaying = false
 local loop = true
 local themeIndex = 1
 
--- 1. HÀM ÂM THANH
+-- 1. HÀM ÂM THANH (Giữ nguyên)
 local function PlayClickSound()
     local sound = Instance.new("Sound", SoundService)
     sound.SoundId = "rbxassetid://6895079853"
@@ -26,9 +30,9 @@ local themes = {
     {Name = "FOREST", Main = Color3.fromRGB(15, 40, 15), Accent = Color3.fromRGB(50, 180, 50), Text = Color3.fromRGB(210, 255, 210)}
 }
 
--- 2. GIAO DIỆN CHÍNH
+-- 2. GIAO DIỆN & DI CHUYỂN (Giữ nguyên)
 local ScreenGui = Instance.new("ScreenGui", Player.PlayerGui)
-ScreenGui.Name = "TINYCLICK_ByCat"
+ScreenGui.Name = "TINYCLICK_V11_1"
 
 local GlowFrame = Instance.new("Frame", ScreenGui)
 GlowFrame.Size = UDim2.new(0, 204, 0, 284)
@@ -59,7 +63,6 @@ Header.Size = UDim2.new(1, 0, 0, 35)
 Header.BackgroundColor3 = themes[1].Accent
 Instance.new("UICorner", Header)
 
--- 3. LOGIC DI CHUYỂN (Drag)
 local function MakeDraggable(obj, dragHandle)
     local dragging, dragStart, startPos
     dragHandle.InputBegan:Connect(function(input)
@@ -75,10 +78,9 @@ local function MakeDraggable(obj, dragHandle)
     end)
     dragHandle.InputEnded:Connect(function(input) dragging = false end)
 end
-
 MakeDraggable(GlowFrame, Header)
 
--- 4. TIÊU ĐỀ MỚI: TINYCLICK by CAT
+-- 3. TIÊU ĐỀ & NÚT WINDOWS
 local Title = Instance.new("TextLabel", Header)
 Title.Size = UDim2.new(0.65, 0, 1, 0)
 Title.Position = UDim2.new(0.05, 0, 0, 0)
@@ -89,7 +91,6 @@ Title.TextSize = 13
 Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.BackgroundTransparency = 1
 
--- 5. NÚT WINDOWS & ICON MÈO DI CHUYỂN
 local CloseBtn = Instance.new("TextButton", Header)
 CloseBtn.Size = UDim2.new(0, 25, 0, 25)
 CloseBtn.Position = UDim2.new(0.85, 0, 0.15, 0)
@@ -114,7 +115,6 @@ CatMin.Font = Enum.Font.GothamBold
 CatMin.TextColor3 = Color3.new(1, 1, 1)
 CatMin.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 Instance.new("UICorner", CatMin).CornerRadius = UDim.new(1, 0)
-
 MakeDraggable(CatMin, CatMin)
 
 MinBtn.MouseButton1Click:Connect(function() PlayClickSound() GlowFrame.Visible = false CatMin.Visible = true CatMin.Position = GlowFrame.Position end)
@@ -125,7 +125,7 @@ CatMin.MouseButton1Click:Connect(function()
 end)
 CloseBtn.MouseButton1Click:Connect(function() PlayClickSound() ScreenGui:Destroy() end)
 
--- 6. TẠO CÁC NÚT CHỨC NĂNG
+-- 4. LOGIC MACRO & ĐIỂM CLICK
 local function createBtn(text, pos, color)
     local btn = Instance.new("TextButton", Main)
     btn.Size = UDim2.new(0, 86, 0, 35)
@@ -180,7 +180,6 @@ local PlayBtn = createBtn("PLAY", UDim2.new(0.52, 0, 0.35, 0), Color3.fromRGB(50
 local ClearBtn = createBtn("CLEAR", UDim2.new(0.05, 0, 0.55, 0), Color3.fromRGB(80, 80, 80))
 local LoopBtn = createBtn("LOOP: ON", UDim2.new(0.52, 0, 0.55, 0), Color3.fromRGB(0, 110, 190))
 
--- 7. LOGIC MACRO FULL
 Mouse.Button1Down:Connect(function()
     if isRecording then
         local idx = #points + 1
@@ -195,6 +194,7 @@ RecBtn.MouseButton1Click:Connect(function()
     if isRecording then for _, v in pairs(points) do if v.ui then v.ui:Destroy() end end points = {} end
 end)
 
+-- ĐOẠN ĐÃ FIX LỖI LỆCH TÂM 1CM
 PlayBtn.MouseButton1Click:Connect(function()
     if #points == 0 then return end
     isPlaying = not isPlaying
@@ -204,9 +204,15 @@ PlayBtn.MouseButton1Click:Connect(function()
             for _, p in ipairs(points) do
                 if not isPlaying then break end
                 p.ui.BackgroundColor3 = Color3.new(1, 1, 1)
-                VirtualInputManager:SendMouseButtonEvent(p.pos.X, p.pos.Y, 0, true, game, 1)
+                
+                -- Tính toán tọa độ bù đắp cho TopBar
+                local actualX = p.pos.X
+                local actualY = p.pos.Y + inset
+                
+                VirtualInputManager:SendMouseButtonEvent(actualX, actualY, 0, true, game, 1)
                 task.wait(0.05)
-                VirtualInputManager:SendMouseButtonEvent(p.pos.X, p.pos.Y, 0, false, game, 1)
+                VirtualInputManager:SendMouseButtonEvent(actualX, actualY, 0, false, game, 1)
+                
                 task.wait(0.1)
                 p.ui.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
                 task.wait(p.delay)
