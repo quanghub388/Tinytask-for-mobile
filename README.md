@@ -1,4 +1,5 @@
-# <p align="center">🔹 TINYCLICK MODERN UI (V12) 🔹</p>
+# <p align="center">🔹 TINYCLICK MODERN UI (V12) 🔹
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Active-00FF96?style=for-the-badge&logo=statuspage&logoColor=white">
