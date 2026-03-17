@@ -1,154 +1,212 @@
 --[[ 
-    TINYCLICK v13.0 - ULTIMATE EDITION
+    TINYCLICK v13.1 - PROFESSIONAL EDITION
     Developed by: CAT (Quang)
-    Features: UI Library, Tab System, Smooth Toggles, High-Speed Clicker
+    Status: FULL VERSION (No Cut)
 ]]
 
 local VIM = game:GetService("VirtualInputManager")
 local UIS = game:GetService("UserInputService")
-local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local LP = Players.LocalPlayer
 local Mouse = LP:GetMouse()
 
--- == CONFIG ==
+-- == HỆ THỐNG CẤU HÌNH ==
 local Config = {
     Enabled = false,
     CPS = 10,
-    CurrentTab = "Main",
-    Theme = Color3.fromRGB(88, 101, 242) -- Discord Blue
+    Theme = Color3.fromRGB(88, 101, 242), -- Màu xanh Discord ngầu lòi
+    Dragging = false
 }
 
--- == UI CONSTRUCT ==
+-- == KHỞI TẠO UI CHÍNH ==
 local ScreenGui = Instance.new("ScreenGui", LP.PlayerGui)
-ScreenGui.Name = "TINYCLICK_V13"
+ScreenGui.Name = "TINYCLICK_V13_FULL"
 ScreenGui.ResetOnSpawn = false
 
--- Main Frame
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 350, 0, 250)
-Main.Position = UDim2.new(0.5, -175, 0.4, -125)
-Main.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+Main.Size = UDim2.new(0, 380, 0, 280)
+Main.Position = UDim2.new(0.5, -190, 0.4, -140)
+Main.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 Main.BorderSizePixel = 0
 local MainCorner = Instance.new("UICorner", Main)
 
--- Sidebar (Tabs)
+-- Sidebar (Thanh bên)
 local Side = Instance.new("Frame", Main)
-Side.Size = UDim2.new(0, 80, 1, 0)
-Side.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Side.Size = UDim2.new(0, 100, 1, 0)
+Side.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 Instance.new("UICorner", Side)
 
 local Title = Instance.new("TextLabel", Side)
-Title.Text = "CAT"
-Title.Size = UDim2.new(1, 0, 0, 40)
+Title.Text = "TINYCLICK"
+Title.Size = UDim2.new(1, 0, 0, 45)
 Title.TextColor3 = Config.Theme
 Title.Font = Enum.Font.GothamBold
-Title.TextSize = 18
+Title.TextSize = 16
 Title.BackgroundTransparency = 1
 
--- Container for Pages
-local Container = Instance.new("Frame", Main)
-Container.Size = UDim2.new(1, -90, 1, -10)
-Container.Position = UDim2.new(0, 85, 0, 5)
-Container.BackgroundTransparency = 1
+-- Page Container (Nơi chứa các trang)
+local PageContainer = Instance.new("Frame", Main)
+PageContainer.Size = UDim2.new(1, -110, 1, -10)
+PageContainer.Position = UDim2.new(0, 105, 0, 5)
+PageContainer.BackgroundTransparency = 1
 
--- == UI DRAGGABLE ==
-local dragging, dragInput, dragStart, startPos
+-- == HỆ THỐNG TAB & PAGE ==
+local Pages = {}
+local TabButtons = {}
+
+local function CreatePage(name, isDefault)
+    local Page = Instance.new("ScrollingFrame", PageContainer)
+    Page.Size = UDim2.new(1, 0, 1, 0)
+    Page.BackgroundTransparency = 1
+    Page.Visible = isDefault or false
+    Page.ScrollBarThickness = 0
+    Page.CanvasSize = UDim2.new(0, 0, 0, 0)
+    
+    local Layout = Instance.new("UIListLayout", Page)
+    Layout.Padding = UDim.new(0, 8)
+    Layout.SortOrder = Enum.SortOrder.LayoutOrder
+
+    local TabBtn = Instance.new("TextButton", Side)
+    TabBtn.Size = UDim2.new(1, -10, 0, 35)
+    TabBtn.Position = UDim2.new(0, 5, 0, 50 + (#TabButtons * 40))
+    TabBtn.Text = name
+    TabBtn.BackgroundColor3 = isDefault and Config.Theme or Color3.fromRGB(40, 40, 40)
+    TabBtn.TextColor3 = Color3.new(1,1,1)
+    TabBtn.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", TabBtn)
+    
+    TabButtons[name] = TabBtn
+    Pages[name] = Page
+
+    TabBtn.MouseButton1Click:Connect(function()
+        for _, p in pairs(Pages) do p.Visible = false end
+        for _, b in pairs(TabButtons) do b.BackgroundColor3 = Color3.fromRGB(40, 40, 40) end
+        Page.Visible = true
+        TabBtn.BackgroundColor3 = Config.Theme
+    end)
+    
+    return Page
+end
+
+-- == COMPONENTS (Toggle & Slider) ==
+local function AddToggle(parent, text, callback)
+    local TBtn = Instance.new("TextButton", parent)
+    TBtn.Size = UDim2.new(1, 0, 0, 40)
+    TBtn.Text = "  " .. text .. " : OFF"
+    TBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    TBtn.TextColor3 = Color3.new(1,1,1)
+    TBtn.Font = Enum.Font.Gotham
+    TBtn.TextXAlignment = "Left"
+    Instance.new("UICorner", TBtn)
+    
+    local state = false
+    TBtn.MouseButton1Click:Connect(function()
+        state = not state
+        TBtn.Text = "  " .. text .. (state and " : ON" or " : OFF")
+        TweenService:Create(TBtn, TweenInfo.new(0.3), {BackgroundColor3 = state and Config.Theme or Color3.fromRGB(45, 45, 45)}):Play()
+        callback(state)
+    end)
+end
+
+local function AddSlider(parent, text, min, max, def, callback)
+    local SFrame = Instance.new("Frame", parent)
+    SFrame.Size = UDim2.new(1, 0, 0, 55); SFrame.BackgroundTransparency = 1
+    
+    local Lbl = Instance.new("TextLabel", SFrame)
+    Lbl.Text = text .. ": " .. def; Lbl.Size = UDim2.new(1,0,0,25); Lbl.TextColor3 = Color3.new(1,1,1); Lbl.BackgroundTransparency = 1; Lbl.Font = Enum.Font.Gotham
+    
+    local SliderBG = Instance.new("Frame", SFrame)
+    SliderBG.Size = UDim2.new(1,-10,0,8); SliderBG.Position = UDim2.new(0,5,0,30); SliderBG.BackgroundColor3 = Color3.fromRGB(60,60,60)
+    Instance.new("UICorner", SliderBG)
+    
+    local Fill = Instance.new("Frame", SliderBG)
+    Fill.Size = UDim2.new((def-min)/(max-min),0,1,0); Fill.BackgroundColor3 = Config.Theme
+    Instance.new("UICorner", Fill)
+    
+    local Btn = Instance.new("TextButton", SliderBG)
+    Btn.Size = UDim2.new(1,0,1,0); Btn.BackgroundTransparency = 1; Btn.Text = ""
+    
+    local function UpdateSlider(input)
+        local p = math.clamp((input.Position.X - SliderBG.AbsolutePosition.X) / SliderBG.AbsoluteSize.X, 0, 1)
+        Fill.Size = UDim2.new(p, 0, 1, 0)
+        local v = math.floor(min + (max-min)*p)
+        Lbl.Text = text .. ": " .. v
+        callback(v)
+    end
+
+    local dragging = false
+    Btn.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            UpdateSlider(input)
+        end
+    end)
+    UIS.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            UpdateSlider(input)
+        end
+    end)
+    UIS.InputEnded:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end end)
+end
+
+-- == LOGIC CLICKER (Tối ưu theo kiểu Pro) ==
+local function StartClicking()
+    task.spawn(function()
+        while Config.Enabled do
+            VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, true, game, 1)
+            task.wait(0.01) -- Click cực nhanh
+            VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, false, game, 1)
+            task.wait(1/Config.CPS)
+        end
+    end)
+end
+
+-- == DRAGGABLE (Kéo thả mượt mà) ==
+local dragStart, startPos
 Main.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-        dragging = true
+        Config.Dragging = true
         dragStart = input.Position
         startPos = Main.Position
     end
 end)
 UIS.InputChanged:Connect(function(input)
-    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+    if Config.Dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
         local delta = input.Position - dragStart
         Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
 end)
-UIS.InputEnded:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end end)
+UIS.InputEnded:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 then Config.Dragging = false end end)
 
--- == FUNCTIONS ==
-local function CreateToggle(parent, text, default, callback)
-    local TFrame = Instance.new("TextButton", parent)
-    TFrame.Size = UDim2.new(1, 0, 0, 35)
-    TFrame.BackgroundTransparency = 1
-    TFrame.Text = ""
+-- == THIẾT LẬP TRANG & TÍNH NĂNG ==
+local MainPage = CreatePage("Main", true)
+local OptionPage = CreatePage("Settings", false)
 
-    local Label = Instance.new("TextLabel", TFrame)
-    Label.Text = text
-    Label.Size = UDim2.new(0.7, 0, 1, 0)
-    Label.TextColor3 = Color3.new(1,1,1)
-    Label.Font = Enum.Font.Gotham
-    Label.TextXAlignment = "Left"
-    Label.BackgroundTransparency = 1
-
-    local BG = Instance.new("Frame", TFrame)
-    BG.Size = UDim2.new(0, 35, 0, 18)
-    BG.Position = UDim2.new(1, -40, 0.5, -9)
-    BG.BackgroundColor3 = default and Config.Theme or Color3.fromRGB(60, 60, 60)
-    Instance.new("UICorner", BG).CornerRadius = UDim.new(1, 0)
-
-    local Circ = Instance.new("Frame", BG)
-    Circ.Size = UDim2.new(0, 14, 0, 14)
-    Circ.Position = default and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7)
-    Circ.BackgroundColor3 = Color3.new(1,1,1)
-    Instance.new("UICorner", Circ).CornerRadius = UDim.new(1, 0)
-
-    local state = default
-    TFrame.MouseButton1Click:Connect(function()
-        state = not state
-        BG:TweenBackgroundColor3(state and Config.Theme or Color3.fromRGB(60, 60, 60), "Out", "Quad", 0.2)
-        Circ:TweenPosition(state and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7), "Out", "Quad", 0.2)
-        callback(state)
-    end)
-end
-
--- == MAIN LOGIC (CLICKER) ==
-task.spawn(function()
-    while true do
-        if Config.Enabled then
-            VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, true, game, 1)
-            task.wait(0.02) -- Anti-lag
-            VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, false, game, 1)
-            task.wait(1/Config.CPS)
-        else
-            task.wait(0.1)
-        end
-    end
-end)
-
--- == PAGES ==
-CreateToggle(Container, "Auto Clicker", false, function(v)
+AddToggle(MainPage, "Auto Click", function(v)
     Config.Enabled = v
+    if v then StartClicking() end
 end)
 
--- Thêm một nút Clear đơn giản
-local ClearBtn = Instance.new("TextButton", Container)
-ClearBtn.Text = "Clear All Points"
-ClearBtn.Size = UDim2.new(1, 0, 0, 35)
-ClearBtn.Position = UDim2.new(0, 0, 0, 45)
-ClearBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-ClearBtn.TextColor3 = Color3.new(1,1,1)
-ClearBtn.Font = Enum.Font.GothamBold
-Instance.new("UICorner", ClearBtn)
+AddSlider(OptionPage, "Tốc độ (CPS)", 1, 60, 10, function(v)
+    Config.CPS = v
+end)
 
--- == MINIMIZE SYSTEM ==
+-- Nút thu nhỏ (Minimize)
 local MinBtn = Instance.new("TextButton", ScreenGui)
 MinBtn.Size = UDim2.new(0, 45, 0, 45)
 MinBtn.Position = UDim2.new(0, 10, 0.5, -22)
 MinBtn.Text = "CAT"
 MinBtn.Visible = false
 MinBtn.BackgroundColor3 = Config.Theme
+MinBtn.TextColor3 = Color3.new(1,1,1)
 Instance.new("UICorner", MinBtn).CornerRadius = UDim.new(1, 0)
 
--- Close Button logic (Hide to MinBtn)
 local Close = Instance.new("TextButton", Main)
-Close.Size = UDim2.new(0, 20, 0, 20)
-Close.Position = UDim2.new(1, -25, 0, 5)
-Close.Text = "X"
-Close.TextColor3 = Color3.new(1,0,0)
+Close.Size = UDim2.new(0, 30, 0, 30)
+Close.Position = UDim2.new(1, -35, 0, 5)
+Close.Text = "—"
+Close.TextColor3 = Color3.new(1,1,1)
 Close.BackgroundTransparency = 1
 Close.MouseButton1Click:Connect(function()
     Main.Visible = false
@@ -160,4 +218,4 @@ MinBtn.MouseButton1Click:Connect(function()
     MinBtn.Visible = false
 end)
 
-print("TINYCLICK v13.0 Loaded Successfully!")
+print("TINYCLICK v13.1 PRO LOADED SUCCESSFULLY!")
