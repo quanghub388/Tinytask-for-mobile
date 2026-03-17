@@ -3,18 +3,15 @@ local Player = game.Players.LocalPlayer
 local Mouse = Player:GetMouse()
 local SoundService = game:GetService("SoundService")
 local UserInputService = game:GetService("UserInputService")
-local GuiService = game:GetService("GuiService") -- Thêm cái này
+local GuiService = game:GetService("GuiService")
 
--- BIẾN FIX LỆCH (Inset thường là 36 hoặc 58 pixel trên Mobile)
 local inset = GuiService:GetGuiInset().Y 
-
 local points = {}
 local isRecording = false
 local isPlaying = false
 local loop = true
 local themeIndex = 1
 
--- 1. HÀM ÂM THANH (Giữ nguyên)
 local function PlayClickSound()
     local sound = Instance.new("Sound", SoundService)
     sound.SoundId = "rbxassetid://6895079853"
@@ -30,9 +27,8 @@ local themes = {
     {Name = "FOREST", Main = Color3.fromRGB(15, 40, 15), Accent = Color3.fromRGB(50, 180, 50), Text = Color3.fromRGB(210, 255, 210)}
 }
 
--- 2. GIAO DIỆN & DI CHUYỂN (Giữ nguyên)
 local ScreenGui = Instance.new("ScreenGui", Player.PlayerGui)
-ScreenGui.Name = "TINYCLICK_V11_1"
+ScreenGui.Name = "TINYCLICK_V12"
 
 local GlowFrame = Instance.new("Frame", ScreenGui)
 GlowFrame.Size = UDim2.new(0, 204, 0, 284)
@@ -80,7 +76,6 @@ local function MakeDraggable(obj, dragHandle)
 end
 MakeDraggable(GlowFrame, Header)
 
--- 3. TIÊU ĐỀ & NÚT WINDOWS
 local Title = Instance.new("TextLabel", Header)
 Title.Size = UDim2.new(0.65, 0, 1, 0)
 Title.Position = UDim2.new(0.05, 0, 0, 0)
@@ -125,7 +120,6 @@ CatMin.MouseButton1Click:Connect(function()
 end)
 CloseBtn.MouseButton1Click:Connect(function() PlayClickSound() ScreenGui:Destroy() end)
 
--- 4. LOGIC MACRO & ĐIỂM CLICK
 local function createBtn(text, pos, color)
     local btn = Instance.new("TextButton", Main)
     btn.Size = UDim2.new(0, 86, 0, 35)
@@ -191,41 +185,62 @@ end)
 RecBtn.MouseButton1Click:Connect(function()
     isRecording = not isRecording
     RecBtn.Text = isRecording and "STOP" or "REC"
-    if isRecording then for _, v in pairs(points) do if v.ui then v.ui:Destroy() end end points = {} end
+    if isRecording then 
+        for _, v in pairs(points) do if v.ui then v.ui:Destroy() end end 
+        points = {} 
+    end
 end)
 
--- ĐOẠN ĐÃ FIX LỖI LỆCH TÂM 1CM
 PlayBtn.MouseButton1Click:Connect(function()
     if #points == 0 then return end
     isPlaying = not isPlaying
     PlayBtn.Text = isPlaying and "STOP" or "PLAY"
-    task.spawn(function()
-        while isPlaying do
-            for _, p in ipairs(points) do
-                if not isPlaying then break end
-                p.ui.BackgroundColor3 = Color3.new(1, 1, 1)
-                
-                -- Tính toán tọa độ bù đắp cho TopBar
-                local actualX = p.pos.X
-                local actualY = p.pos.Y + inset
-                
-                VirtualInputManager:SendMouseButtonEvent(actualX, actualY, 0, true, game, 1)
-                task.wait(0.05)
-                VirtualInputManager:SendMouseButtonEvent(actualX, actualY, 0, false, game, 1)
-                
+    
+    -- [[ TÍNH NĂNG ẨN NÚT ĐỎ KHI PLAY ]]
+    for _, p in ipairs(points) do
+        if p.ui then p.ui.Visible = not isPlaying end
+    end
+
+    if isPlaying then
+        task.spawn(function()
+            while isPlaying do
+                for _, p in ipairs(points) do
+                    if not isPlaying then break end
+                    
+                    local actualX = p.pos.X
+                    local actualY = p.pos.Y + inset
+                    
+                    VirtualInputManager:SendMouseButtonEvent(actualX, actualY, 0, true, game, 1)
+                    task.wait(0.05)
+                    VirtualInputManager:SendMouseButtonEvent(actualX, actualY, 0, false, game, 1)
+                    
+                    task.wait(p.delay)
+                end
+                if not loop then isPlaying = false break end
                 task.wait(0.1)
-                p.ui.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
-                task.wait(p.delay)
             end
-            if not loop then isPlaying = false break end
-            task.wait(0.1)
-        end
-        PlayBtn.Text = "PLAY"
-    end)
+            
+            -- Hiện lại nút khi dừng hoặc hết loop
+            PlayBtn.Text = "PLAY"
+            isPlaying = false
+            for _, p in ipairs(points) do
+                if p.ui then p.ui.Visible = true end
+            end
+        end)
+    end
 end)
 
-ClearBtn.MouseButton1Click:Connect(function() for _, v in pairs(points) do if v.ui then v.ui:Destroy() end end points = {} isPlaying = false PlayBtn.Text = "PLAY" end)
-LoopBtn.MouseButton1Click:Connect(function() loop = not loop LoopBtn.Text = loop and "LOOP: ON" or "LOOP: OFF" end)
+ClearBtn.MouseButton1Click:Connect(function() 
+    isPlaying = false
+    PlayBtn.Text = "PLAY"
+    for _, v in pairs(points) do if v.ui then v.ui:Destroy() end end 
+    points = {} 
+end)
+
+LoopBtn.MouseButton1Click:Connect(function() 
+    loop = not loop 
+    LoopBtn.Text = loop and "LOOP: ON" or "LOOP: OFF" 
+end)
 
 local SupportBtn = createBtn("SUPPORT", UDim2.new(0.05, 0, 0.8, 0), Color3.fromRGB(88, 101, 242))
 SupportBtn.Size = UDim2.new(0.9, 0, 0, 35)
