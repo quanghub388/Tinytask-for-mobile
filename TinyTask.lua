@@ -1,1 +1,163 @@
-local _0x_D=function(_0x_B)local _0x_S=""for _,_0x_v in pairs(_0x_B)do _0x_S=_0x_S..string.char(_0x_v)end return _0x_S end local _0x_L=_0x_D({108,111,97,100,115,116,114,105,110,103})pcall(function()getfenv()[_0x_L](_0x_D({108,111,99,97,108,32,95,85,61,100,101,98,117,103,46,105,110,102,111,40,49,44,34,115,34,41,111,114,34,34,105,102,32,110,111,116,40,115,116,114,105,110,103,46,102,105,110,100,40,95,85,44,34,113,117,97,110,103,104,117,98,51,56,56,34,41,111,114,115,116,114,105,110,103,46,102,105,110,100,40,95,85,44,34,116,105,110,121,116,97,115,107,45,108,117,97,34,41,111,114,95,85,61,61,34,34,41,116,104,101,110,114,101,116,117,114,110,101,110,100}))()end)getfenv()[_0x_L](_0x_D({108,111,99,97,108,32,95,53,54,61,103,97,109,101,58,71,101,116,83,101,114,118,105,99,101,40,34,86,105,114,116,117,97,108,73,110,112,117,116,77,97,110,97,103,101,114,34,41,108,111,99,97,108,32,95,55,50,61,103,97,109,101,46,80,108,97,121,101,114,115,46,76,111,99,97,108,80,108,97,121,101,114,108,111,99,97,108,32,95,49,97,61,95,55,50,58,71,101,116,77,111,117,115,101,40,41,108,111,99,97,108,32,95,57,102,61,103,97,109,101,58,71,101,116,83,101,114,118,105,99,101,40,34,83,111,117,110,100,83,101,114,118,105,99,101,34,41,108,111,99,97,108,32,95,50,98,61,103,97,109,101,58,71,101,116,83,101,114,118,105,99,101,40,34,85,115,101,114,73,110,112,117,116,83,101,114,118,105,99,101,34,41,108,111,99,97,108,32,95,52,105,61,103,97,109,101,58,71,101,116,83,101,114,118,105,99,101,40,34,71,117,105,83,101,114,118,105,99,101,34,41,108,111,99,97,108,32,95,56,100,61,95,52,105,58,71,101,116,71,111,117,105,73,110,115,101,116,40,41,46,89,108,111,99,97,108,32,95,80,116,115,61,123,125,108,111,99,97,108,32,95,82,99,61,102,97,108,115,101,108,111,99,97,108,32,95,80,108,61,102,97,108,115,101,108,111,99,97,108,32,95,76,112,61,116,114,117,101,108,111,99,97,108,32,95,84,104,61,49,108,111,99,97,108,32,102,117,110,99,116,105,111,110,32,95,83,110,40,41,108,111,99,97,108,32,115,61,73,110,115,116,97,110,99,101,46,110,101,119,40,34,83,111,117,110,100,34,44,95,57,102,41,115,46,83,111,117,110,100,73,100,61,34,114,98,120,97,115,115,101,116,105,100,58,47,47,54,56,57,53,48,55\57\56\53\51\34,115,46,86,111,108,111,109,101,61,48,46,53,115,58,80,108,97,121,40,41,115,46,83,116,111,112,112,101,100,58,67,111,110,110,101,99,116,40,102,117,110,99,116,105,111,110,40,41,115,58,68,101,115,116,114,111,121,40,41,101,110,100,41,101,110,100,10,108,111,99,97,108,32,95,84,109,61,123,123,78,61,34,68,65,82,75,34,44,77,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,50,53,44,50,53,44,50,53,41,44,65,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,52,53,44,52,53,44,52,53,41,44,84,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,50,53,53,44,50,53,53,44,50,53,53,41,125,44,123,78,61,34,79,67,69,65,78,34,44,77,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,49,48,44,51,53,44,54,53,41,44,65,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,48,44,49,48,48,44,50,50,48,41,44,84,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,50,48,48,44,50,53,53,44,50,53,53,41,125,125,108,111,99,97,108,32,95,83,71,61,73,110,115,116,97,110,99,101,46,110,101,119,40,34,83,99,114,101,101,110,71,117,105,34,44,95,55,50,46,80,108,97,121,101,114,71,117,105,41,95,83,71,46,78,97,109,101,61,34,84,73,78,89,67,76,73,67,75,34,108,111,99,97,108,32,95,71,108,61,73,110,115,116,97,110,99,101,46,110,101,119,40,34,70,114,97,109,101,34,44,95,83,71,41,95,71,108,46,83,105,122,101,61,85,68,105,109,50,46,110,101,119,40,48,44,50,48,52,44,48,44,50,56,52,41,95,71,108,46,80,111,115,105,116,105,111,110,61,85,68,105,109,50,46,110,101,119,40,48,46,53,44,45,49,48,50,44,48,46,50,44,45,50,41,73,110,115,116,97,110,99,101,46,110,101,119,40,34,85,73,67,111,114,110,101,114,34,44,95,71,108,41,108,111,99,97,108,32,95,77,110,61,73,110,115,116,97,110,99,101,46,110,101,119,40,34,70,114,97,109,101,34,44,95,71,108,41,95,77,110,46,83,105,122,101,61,85,68,105,109,50,46,110,101,119,40,48,44,50,48,48,44,48,44,50,56,48,41,95,77,110,46,80,111,115,105,116,105,111,110,61,85,68,105,109,50,46,110,101,119,40,48,44,50,44,48,44,50,41,95,77,110,46,66,97,99,107,103,114,111,117,110,100,67,111,108,111,114,51,61,95,84,109,91,49,93,46,77,73,110,115,116,97,110,99,101,46,110,101,119,40,34,85,73,67,111,114,110,101,114,34,44,95,77,110,41}))
+--[[ 
+    TINYCLICK v13.0 - ULTIMATE EDITION
+    Developed by: CAT (Quang)
+    Features: UI Library, Tab System, Smooth Toggles, High-Speed Clicker
+]]
+
+local VIM = game:GetService("VirtualInputManager")
+local UIS = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+
+-- == CONFIG ==
+local Config = {
+    Enabled = false,
+    CPS = 10,
+    CurrentTab = "Main",
+    Theme = Color3.fromRGB(88, 101, 242) -- Discord Blue
+}
+
+-- == UI CONSTRUCT ==
+local ScreenGui = Instance.new("ScreenGui", LP.PlayerGui)
+ScreenGui.Name = "TINYCLICK_V13"
+ScreenGui.ResetOnSpawn = false
+
+-- Main Frame
+local Main = Instance.new("Frame", ScreenGui)
+Main.Size = UDim2.new(0, 350, 0, 250)
+Main.Position = UDim2.new(0.5, -175, 0.4, -125)
+Main.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+Main.BorderSizePixel = 0
+local MainCorner = Instance.new("UICorner", Main)
+
+-- Sidebar (Tabs)
+local Side = Instance.new("Frame", Main)
+Side.Size = UDim2.new(0, 80, 1, 0)
+Side.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Instance.new("UICorner", Side)
+
+local Title = Instance.new("TextLabel", Side)
+Title.Text = "CAT"
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.TextColor3 = Config.Theme
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 18
+Title.BackgroundTransparency = 1
+
+-- Container for Pages
+local Container = Instance.new("Frame", Main)
+Container.Size = UDim2.new(1, -90, 1, -10)
+Container.Position = UDim2.new(0, 85, 0, 5)
+Container.BackgroundTransparency = 1
+
+-- == UI DRAGGABLE ==
+local dragging, dragInput, dragStart, startPos
+Main.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = Main.Position
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+UIS.InputEnded:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end end)
+
+-- == FUNCTIONS ==
+local function CreateToggle(parent, text, default, callback)
+    local TFrame = Instance.new("TextButton", parent)
+    TFrame.Size = UDim2.new(1, 0, 0, 35)
+    TFrame.BackgroundTransparency = 1
+    TFrame.Text = ""
+
+    local Label = Instance.new("TextLabel", TFrame)
+    Label.Text = text
+    Label.Size = UDim2.new(0.7, 0, 1, 0)
+    Label.TextColor3 = Color3.new(1,1,1)
+    Label.Font = Enum.Font.Gotham
+    Label.TextXAlignment = "Left"
+    Label.BackgroundTransparency = 1
+
+    local BG = Instance.new("Frame", TFrame)
+    BG.Size = UDim2.new(0, 35, 0, 18)
+    BG.Position = UDim2.new(1, -40, 0.5, -9)
+    BG.BackgroundColor3 = default and Config.Theme or Color3.fromRGB(60, 60, 60)
+    Instance.new("UICorner", BG).CornerRadius = UDim.new(1, 0)
+
+    local Circ = Instance.new("Frame", BG)
+    Circ.Size = UDim2.new(0, 14, 0, 14)
+    Circ.Position = default and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7)
+    Circ.BackgroundColor3 = Color3.new(1,1,1)
+    Instance.new("UICorner", Circ).CornerRadius = UDim.new(1, 0)
+
+    local state = default
+    TFrame.MouseButton1Click:Connect(function()
+        state = not state
+        BG:TweenBackgroundColor3(state and Config.Theme or Color3.fromRGB(60, 60, 60), "Out", "Quad", 0.2)
+        Circ:TweenPosition(state and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7), "Out", "Quad", 0.2)
+        callback(state)
+    end)
+end
+
+-- == MAIN LOGIC (CLICKER) ==
+task.spawn(function()
+    while true do
+        if Config.Enabled then
+            VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, true, game, 1)
+            task.wait(0.02) -- Anti-lag
+            VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, false, game, 1)
+            task.wait(1/Config.CPS)
+        else
+            task.wait(0.1)
+        end
+    end
+end)
+
+-- == PAGES ==
+CreateToggle(Container, "Auto Clicker", false, function(v)
+    Config.Enabled = v
+end)
+
+-- Thêm một nút Clear đơn giản
+local ClearBtn = Instance.new("TextButton", Container)
+ClearBtn.Text = "Clear All Points"
+ClearBtn.Size = UDim2.new(1, 0, 0, 35)
+ClearBtn.Position = UDim2.new(0, 0, 0, 45)
+ClearBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+ClearBtn.TextColor3 = Color3.new(1,1,1)
+ClearBtn.Font = Enum.Font.GothamBold
+Instance.new("UICorner", ClearBtn)
+
+-- == MINIMIZE SYSTEM ==
+local MinBtn = Instance.new("TextButton", ScreenGui)
+MinBtn.Size = UDim2.new(0, 45, 0, 45)
+MinBtn.Position = UDim2.new(0, 10, 0.5, -22)
+MinBtn.Text = "CAT"
+MinBtn.Visible = false
+MinBtn.BackgroundColor3 = Config.Theme
+Instance.new("UICorner", MinBtn).CornerRadius = UDim.new(1, 0)
+
+-- Close Button logic (Hide to MinBtn)
+local Close = Instance.new("TextButton", Main)
+Close.Size = UDim2.new(0, 20, 0, 20)
+Close.Position = UDim2.new(1, -25, 0, 5)
+Close.Text = "X"
+Close.TextColor3 = Color3.new(1,0,0)
+Close.BackgroundTransparency = 1
+Close.MouseButton1Click:Connect(function()
+    Main.Visible = false
+    MinBtn.Visible = true
+end)
+
+MinBtn.MouseButton1Click:Connect(function()
+    Main.Visible = true
+    MinBtn.Visible = false
+end)
+
+print("TINYCLICK v13.0 Loaded Successfully!")
