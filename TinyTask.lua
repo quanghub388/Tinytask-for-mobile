@@ -1,1 +1,130 @@
-local _0x_D=function(_0x_B)local _0x_S=""for _,_0x_v in pairs(_0x_B)do _0x_S=_0x_S..string.char(_0x_v)end return _0x_S end local _0x_L=_0x_D({108,111,97,100,115,116,114,105,110,103})pcall(function()getfenv()[_0x_L](_0x_D({108,111,99,97,108,32,95,85,61,100,101,98,117,103,46,105,110,102,111,40,49,44,34,115,34,41,111,114,34,34,105,102,32,110,111,116,40,115,116,114,105,110,103,46,102,105,110,100,40,95,85,44,34,113,117,97,110,103,104,117,98,51,56,56,34,41,111,114,115,116,114,105,110,103,46,102,105,110,100,40,95,85,44,34,116,105,110,121,116,97,115,107,45,108,117,97,34,41,111,114,95,85,61,61,34,34,41,116,104,101,110,114,101,116,117,114,110,101,110,100}))()end)getfenv()[_0x_L](_0x_D({108,111,99,97,108,32,95,53,54,61,103,97,109,101,58,71,101,116,83,101,114,118,105,99,101,40,34,86,105,114,116,117,97,108,73,110,112,117,116,77,97,110,97,103,101,114,34,41,108,111,99,97,108,32,95,55,50,61,103,97,109,101,46,80,108,97,121,101,114,115,46,76,111,99,97,108,80,108,97,121,101,114,108,111,99,97,108,32,95,49,97,61,95,55,50,58,71,101,116,77,111,117,115,101,40,41,108,111,99,97,108,32,95,57,102,61,103,97,109,101,58,71,101,116,83,101,114,118,105,99,101,40,34,83,111,117,110,100,83,101,114,118,105,99,101,34,41,108,111,99,97,108,32,95,50,98,61,103,97,109,101,58,71,101,116,83,101,114,118,105,99,101,40,34,85,115,101,114,73,110,112,117,116,83,101,114,118,105,99,101,34,41,108,111,99,97,108,32,95,52,105,61,103,97,109,101,58,71,101,116,83,101,114,118,105,99,101,40,34,71,117,105,83,101,114,118,105,99,101,34,41,108,111,99,97,108,32,95,56,100,61,95,52,105,58,71,101,116,71,111,117,105,73,110,115,101,116,40,41,46,89,108,111,99,97,108,32,95,80,116,115,61,123,125,108,111,99,97,108,32,95,82,99,61,102,97,108,115,101,108,111,99,97,108,32,95,80,108,61,102,97,108,115,101,108,111,99,97,108,32,95,76,112,61,116,114,117,101,108,111,99,97,108,32,95,84,104,61,49,108,111,99,97,108,32,102,117,110,99,116,105,111,110,32,95,83,110,40,41,108,111,99,97,108,32,115,61,73,110,115,116,97,110,99,101,46,110,101,119,40,34,83,111,117,110,100,34,44,95,57,102,41,115,46,83,111,117,110,100,73,100,61,34,114,98,120,97,115,115,101,116,105,100,58,47,47,54,56,57,53,48,55\57\56\53\51\34,115,46,86,111,108,111,109,101,61,48,46,53,115,58,80,108,97,121,40,41,115,46,83,116,111,112,112,101,100,58,67,111,110,110,101,99,116,40,102,117,110,99,116,105,111,110,40,41,115,58,68,101,115,116,114,111,121,40,41,101,110,100,41,101,110,100,10,108,111,99,97,108,32,95,84,109,61,123,123,78,61,34,68,65,82,75,34,44,77,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,50,53,44,50,53,44,50,53,41,44,65,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,52,53,44,52,53,44,52,53,41,44,84,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,50,53,53,44,50,53,53,44,50,53,53,41,125,44,123,78,61,34,79,67,69,65,78,34,44,77,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,49,48,44,51,53,44,54,53,41,44,65,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,48,44,49,48,48,44,50,50,48,41,44,84,61,67,111,108,111,114,51,46,102,114,111,109,82,71,66,40,50,48,48,44,50,53,53,44,50,53,53,41,125,125,108,111,99,97,108,32,95,83,71,61,73,110,115,116,97,110,99,101,46,110,101,119,40,34,83,99,114,101,101,110,71,117,105,34,44,95,55,50,46,80,108,97,121,101,114,71,117,105,41,95,83,71,46,78,97,109,101,61,34,84,73,78,89,67,76,73,67,75,34,108,111,99,97,108,32,95,71,108,61,73,110,115,116,97,110,99,101,46,110,101,119,40,34,70,114,97,109,101,34,44,95,83,71,41,95,71,108,46,83,105,122,101,61,85,68,105,109,50,46,110,101,119,40,48,44,50,48,52,44,48,44,50,56,52,41,95,71,108,46,80,111,115,105,116,105,111,110,61,85,68,105,109,50,46,110,101,119,40,48,46,53,44,45,49,48,50,44,48,46,50,44,45,50,41,73,110,115,116,97,110,99,101,46,110,101,119,40,34,85,73,67,111,114,110,101,114,34,44,95,71,108,41,108,111,99,97,108,32,95,77,110,61,73,110,115,116,97,110,99,101,46,110,101,119,40,34,70,114,97,109,101,34,44,95,71,108,41,95,77,110,46,83,105,122,101,61,85,68,105,109,50,46,110,101,119,40,48,44,50,48,48,44,48,44,50,56,48,41,95,77,110,46,80,111,115,105,116,105,111,110,61,85,68,105,109,50,46,110,101,119,40,48,44,50,44,48,44,50,41,95,77,110,46,66,97,99,107,103,114,111,117,110,100,67,111,108,111,114,51,61,95,84,109,91,49,93,46,77,73,110,115,116,97,110,99,101,46,110,101,119,40,34,85,73,67,111,114,110,101,114,34,44,95,77,110,41}))
+-- [[ TINYCLICK - MODERN UI EDITION ]] --
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local VIM = game:GetService("VirtualInputManager")
+local TweenService = game:GetService("TweenService")
+
+local Player = Players.LocalPlayer
+local Mouse = Player:GetMouse()
+local Points = {}
+local Recording = false
+local Playing = false
+local Loop = true
+local _WaitTime = 0.1
+
+-- 1. TẠO GIAO DIỆN (GUI)
+local ScreenGui = Instance.new("ScreenGui", Player.PlayerGui)
+ScreenGui.Name = "TINYCLICK_BY_CAT"
+ScreenGui.ResetOnSpawn = false
+
+local Main = Instance.new("Frame", ScreenGui)
+Main.Size = UDim2.new(0, 180, 0, 240)
+Main.Position = UDim2.new(0.5, -90, 0.3, 0)
+Main.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+Main.BorderSizePixel = 0
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 10)
+
+local Title = Instance.new("TextLabel", Main)
+Title.Size = UDim2.new(1, 0, 0, 35)
+Title.Text = "TINYCLICK"
+Title.TextColor3 = Color3.fromRGB(0, 170, 255)
+Title.BackgroundTransparency = 1
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 18
+
+-- 2. HÀM KÉO DI CHUYỂN (DRAGGABLE)
+local dragging, dragInput, dragStart, startPos
+Main.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = Main.Position
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+UIS.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+
+-- 3. HÀM TẠO NÚT BẤM (HELPER)
+local function CreateBtn(name, pos, color)
+    local btn = Instance.new("TextButton", Main)
+    btn.Name = name
+    btn.Size = UDim2.new(0, 150, 0, 35)
+    btn.Position = pos
+    btn.BackgroundColor3 = color
+    btn.Text = name
+    btn.TextColor3 = Color3.new(1,1,1)
+    btn.Font = Enum.Font.GothamSemibold
+    btn.TextSize = 14
+    btn.AutoButtonColor = true
+    Instance.new("UICorner", btn)
+    return btn
+end
+
+local RecordBtn = CreateBtn("RECORD: OFF", UDim2.new(0, 15, 0, 50), Color3.fromRGB(50, 50, 50))
+local PlayBtn = CreateBtn("PLAY: OFF", UDim2.new(0, 15, 0, 95), Color3.fromRGB(50, 50, 50))
+local LoopBtn = CreateBtn("LOOP: ON", UDim2.new(0, 15, 0, 140), Color3.fromRGB(0, 120, 0))
+local ClearBtn = CreateBtn("CLEAR POINTS", UDim2.new(0, 15, 0, 185), Color3.fromRGB(120, 0, 0))
+
+-- 4. LOGIC XỬ LÝ
+UIS.InputBegan:Connect(function(input, gpe)
+    if gpe then return end
+    if Recording and (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
+        table.insert(Points, {x = input.Position.X, y = input.Position.Y})
+        RecordBtn.Text = "POINTS: "..#Points
+    end
+end)
+
+RecordBtn.MouseButton1Click:Connect(function()
+    Recording = not Recording
+    RecordBtn.Text = Recording and "RECORDING..." or "RECORD: OFF"
+    RecordBtn.BackgroundColor3 = Recording and Color3.fromRGB(200, 0, 0) or Color3.fromRGB(50, 50, 50)
+end)
+
+local function RunPlayback()
+    Playing = true
+    PlayBtn.Text = "PLAYING..."
+    PlayBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+    
+    repeat
+        for i, p in pairs(Points) do
+            if not Playing then break end
+            VIM:SendMouseButtonEvent(p.x, p.y, 0, true, game, 0)
+            VIM:SendMouseButtonEvent(p.x, p.y, 0, false, game, 0)
+            task.wait(_WaitTime)
+        end
+    until not Loop or not Playing
+    
+    Playing = false
+    PlayBtn.Text = "PLAY: OFF"
+    PlayBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+end
+
+PlayBtn.MouseButton1Click:Connect(function()
+    if #Points == 0 then return end
+    if Playing then
+        Playing = false
+    else
+        task.spawn(RunPlayback)
+    end
+end)
+
+LoopBtn.MouseButton1Click:Connect(function()
+    Loop = not Loop
+    LoopBtn.Text = Loop and "LOOP: ON" or "LOOP: OFF"
+    LoopBtn.BackgroundColor3 = Loop and Color3.fromRGB(0, 120, 0) or Color3.fromRGB(80, 80, 80)
+end)
+
+ClearBtn.MouseButton1Click:Connect(function()
+    table.clear(Points)
+    RecordBtn.Text = "RECORD: OFF"
+    Playing = false
+end)
